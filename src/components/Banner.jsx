@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 
 const Banner = ({ purpose, title, desc, buttonText, imgUrl }) => {
   return (
@@ -22,9 +22,11 @@ const Banner = ({ purpose, title, desc, buttonText, imgUrl }) => {
           {desc}
         </span>
       </div>
-      <button className="p-3 rounded-md bg-blue-600 text-white font-bold">
-        {buttonText}
-      </button>
+      <Link to={"/search?purpose=for-rent"}>
+        <button className="p-3 rounded-md bg-blue-600 text-white font-bold">
+          {buttonText}
+        </button>
+      </Link>
     </div>
   );
 };

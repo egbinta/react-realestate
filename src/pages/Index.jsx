@@ -1,92 +1,85 @@
 import Banner from "../components/Banner";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import HouseForRent from "../components/HouseForRent";
-import HouseForSale from "../components/HouseForSale";
+import Property from "../components/Property";
+import ForSaleBanner from "../components/ForSaleBanner";
+import classes from "../components/Index.module.css";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function Index() {
   const [propertyForRent, setPropertyForRent] = useState([]);
   const [propertyForSale, setPropertyForSale] = useState([]);
+  const [screenSize, setScreenSize] = useState(getCurrentDimension());
+  const [isLoading, setIsLoading] = useState(true);
+
+  function getCurrentDimension() {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  }
+
   useEffect(() => {
-    axios
-      .get("https://bayut.p.rapidapi.com/properties/list", {
-        params: {
-          locationExternalIDs: "5002",
-          purpose: "for-rent",
-          hitsPerPage: "2",
-        },
-        headers: {
-          "X-RapidAPI-Key":
-            "b89922295dmshe7d2453f3a26507p131c79jsnb5230be8042f",
-          "X-RapidAPI-Host": "bayut.p.rapidapi.com",
-        },
-      })
-      .then((response) => {
-        setPropertyForRent(response.data.hits);
-
-        //console.log("rent", response.data);
-      })
-      .catch((error) => {
-        console.log(error.data);
-      });
-
+    //setIsLoading(true);
+    // axios
+    //   .get("https://bayut.p.rapidapi.com/properties/list", {
+    //     params: {
+    //       locationExternalIDs: "5002",
+    //       purpose: "for-rent",
+    //       hitsPerPage: "1",
+    //     },
+    //     headers: {
+    //       "X-RapidAPI-Key":
+    //         "499fbc6e61msh790dad8a6509f03p1cb807jsn9db05b7e546c",
+    //       "X-RapidAPI-Host": "bayut.p.rapidapi.com",
+    //     },
+    //   })
+    //   .then((response) => {
+    //     setPropertyForRent(response.data.hits);
+    //     setIsLoading(false);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.data);
+    //   });
     // const res = axios
     //   .get("https://bayut.p.rapidapi.com/properties/list", {
     //     params: {
     //       locationExternalIDs: "5002",
     //       purpose: "for-sale",
-    //       hitsPerPage: "10",
+    //       hitsPerPage: "1",
     //     },
     //     headers: {
     //       "X-RapidAPI-Key":
-    //         "b89922295dmshe7d2453f3a26507p131c79jsnb5230be8042f",
+    //         "499fbc6e61msh790dad8a6509f03p1cb807jsn9db05b7e546c",
     //       "X-RapidAPI-Host": "bayut.p.rapidapi.com",
     //     },
     //   })
     //   .then((res) => {
     //     setPropertyForSale(res.data.hits);
-    //     console.log("rent", propertyForSale);
     //   })
     //   .catch((error) => {
     //     console.log(error.data);
     //   });
-  }, []);
 
-  console.log(propertyForRent);
+    const updateDimension = () => {
+      setScreenSize(getCurrentDimension());
+    };
+    window.addEventListener("resize", updateDimension);
+
+    return () => {
+      window.removeEventListener("resize", updateDimension);
+    };
+  }, [screenSize]);
+  console.log("rent", propertyForRent);
+  console.log("buy", propertyForSale);
+
+  // if (isLoading) {
+  //   return <LoadingSpinner />;
+  // }
 
   return (
     <div>
-      <Banner
-        imgUrl={`url("./img/rentHomeImage.jpg")`}
-        purpose={"RENT A HOME"}
-        title={"Rent homes for everyone"}
-        desc={"Explore Apartments, Villers, Homes and more"}
-        buttonText={"Explore Renting"}
-      />
-      {/* House for rent  */}
-      <div className="container mx-auto px-18 py-10 md:px-10">
-        <div className="grid lg:grid-cols-4 gap-3 md:grid-cols-3 sm:grid-cols-2">
-          {propertyForRent.map((property) => (
-            <HouseForRent key={property.id} property={property} />
-          ))}
-        </div>
-      </div>
-      <Banner
-        imgUrl={`url("./img/buyHomeImage1.jpg")`}
-        purpose={"BUY A HOME"}
-        title={"Find, Buy & Own Your Dream Home"}
-        desc={"Explore Apartments, Villers, Homes and more"}
-        buttonText={"Explore Buying"}
-      />
-
-      {/* House for rent  */}
-      <div className="container mx-auto px-18 py-10 md:px-10">
-        <div className="grid lg:grid-cols-4 gap-3 md:grid-cols-3 sm:grid-cols-2">
-          {propertyForSale.map((property) => (
-            <HouseForSale key={property.id} property={property} />
-          ))}
-        </div>
-      </div>
+      <LoadingSpinner />
     </div>
   );
 }

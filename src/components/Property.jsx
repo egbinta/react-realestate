@@ -7,7 +7,7 @@ import { FaBath } from "react-icons/fa";
 import { FaTh } from "react-icons/fa";
 import { millify } from "millify";
 
-const HouseForRent = ({
+const Property = ({
   property: {
     coverPhoto,
     price,
@@ -22,8 +22,8 @@ const HouseForRent = ({
   },
 }) => {
   return (
-    <div>
-      <Link to={`/homedetails?externalId=${externalID}`}>
+    <div className="container mx-auto px-5">
+      <Link to={`/homedetails/${externalID}`}>
         <img
           src={coverPhoto ? coverPhoto.url : DefaultImage}
           style={{ width: "350px", height: "171px" }}
@@ -78,4 +78,4 @@ const HouseForRent = ({
   );
 };
 
-export default HouseForRent;
+export default Property;
