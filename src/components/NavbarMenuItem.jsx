@@ -17,6 +17,9 @@ const NavbarMenuItem = () => {
         <Link to="/search?purpose=for-rent" className="px-2 font-medium">
           Rent Property
         </Link>
+        <Link to="/error" className="px-2 font-medium">
+          Error
+        </Link>
       </ul>
     </div>
   );
